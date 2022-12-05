@@ -5,6 +5,8 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { validarCPF, validarSenha } from "./models/cadastro.js";
+import ValidacoesCadastro from "./contexts/ValidacoesCadastro";
 
 function App() {
   return (
@@ -12,21 +14,17 @@ function App() {
       <Typography variant="h3" align="center" component="h1">
         Formulário de Cadastro
       </Typography>
-      <FormularioCadastro aoEnviar={aoEnviarForm} validarCPF={validarCPF} />
+      <ValidacoesCadastro.Provider
+        value={{ cpf: validarCPF, senha: validarSenha }}
+      >
+        <FormularioCadastro aoEnviar={aoEnviarForm} />
+      </ValidacoesCadastro.Provider>
     </Container>
   );
 }
 
 function aoEnviarForm(dados) {
   console.log(dados);
-}
-
-function validarCPF(cpf) {
-  if (cpf.length !== 11) {
-    return { valido: false, texto: "CPF deve ter 11 dígitos" };
-  } else {
-    return { valido: true, texto: "" };
-  }
 }
 
 export default App;
